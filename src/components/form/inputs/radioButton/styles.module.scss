@@ -1,0 +1,67 @@
+.radioButtonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 1.25rem;
+  position: relative;
+}
+
+.label {
+  font-size: 14px;
+  color: var(--primaryText);
+  margin-bottom: 4px;
+}
+
+.required {
+  color: var(--alert);
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.radioInput {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--borderPrimary);
+  background-color: var(--backgroundSecondary);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.radioInput:checked {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.radioLabel {
+  font-size: 14px;
+  color: var(--primaryText);
+
+}
+
+.radioInput:disabled {
+  cursor: not-allowed;
+  background-color: var(--backgroundTertiary);
+  border-color: var(--tertiaryText);
+}
+
+.errorMessage {
+  position: absolute;
+  bottom: 0;
+  font-size: 0.75rem;
+  color: var(--alert)
+}

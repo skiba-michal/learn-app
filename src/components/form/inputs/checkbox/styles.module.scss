@@ -1,0 +1,65 @@
+.checkboxWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  padding-bottom: 1.25rem;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  color: var(--primaryText);
+  cursor: pointer;
+  position: relative;
+}
+
+.checkboxInput {
+  display: none;
+}
+
+.checkboxCustom {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--borderPrimary);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.checkboxCustom::after {
+  content: "✔";
+  font-size: 0.9rem;
+  color: var(--accent);
+  transform: scale(0);
+  transition: all 0.2s ease-in-out;
+}
+
+.checkboxInput:checked + .checkboxCustom {
+  border-color: var(--accent);
+}
+
+.checkboxInput:checked + .checkboxCustom::after {
+  transform: scale(1);
+}
+
+.disabled {
+  color: var(--tertiaryText);
+  cursor: not-allowed;
+}
+
+.disabled .checkboxCustom {
+  border-color: var(--borderPrimary);
+}
+
+.errorMessage {
+  position: absolute;
+  bottom: 0;
+  font-size: 0.75rem;
+  color: var(--alert)
+}

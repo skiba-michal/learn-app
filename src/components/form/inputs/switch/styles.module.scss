@@ -1,0 +1,63 @@
+.switchWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  padding-bottom: 1.25rem;
+}
+
+.switchLabel {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  font-size: 1rem;
+}
+
+.switchInput {
+  display: none;
+}
+
+.switchSlider {
+  width: 42px;
+  height: 24px;
+  background-color: var(--borderPrimary);
+  border-radius: 12px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.switchSlider::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background-color: var(--primaryText);
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: all 0.3s ease;
+}
+
+.switchInput:checked + .switchSlider {
+  background-color: var(--accent);
+}
+
+.switchInput:checked + .switchSlider::before {
+  transform: translateX(18px);
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+.disabled .switchSlider {
+  background-color: var(--tertiaryText);
+}
+
+.errorMessage {
+  position: absolute;
+  bottom: 2px;
+  font-size: 0.75rem;
+  color: var(--alert)
+}

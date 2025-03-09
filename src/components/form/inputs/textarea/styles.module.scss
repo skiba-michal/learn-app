@@ -1,0 +1,56 @@
+.textareaContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primaryText);
+}
+
+.textarea {
+  padding: 0.5rem;
+  border: 2px solid var(--borderPrimary);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--primaryText);
+  background-color: var(--backgroundSecondary);
+  outline: none;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+
+  &:focus {
+    border-color: var(--accent);
+  }
+}
+
+.disabled {
+  background-color: var(--backgroundTertiary);
+  color: var(--tertiaryText);
+  cursor: not-allowed;
+  border-color: var(--borderPrimary);
+}
+
+.error {
+  border-color: var(--alert);
+}
+
+.errorMessage {
+  position: absolute;
+  bottom: 2px;
+  font-size: 0.75rem;
+  color: var(--alert)
+}
+
+.charCounter {
+  font-size: 12px;
+  color: var(--tertiaryText);
+  text-align: right;
+}
+
+.required {
+  color: var(--alert);
+}
+

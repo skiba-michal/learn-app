@@ -1,0 +1,48 @@
+.datePickerWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  padding-bottom: 1.25rem;
+}
+
+.label {
+  font-size: 14px;
+  color: var(--primaryText);
+  margin-bottom: 4px;
+}
+
+.datePicker {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  background-color: var(--backgroundSecondary);
+  color: var(--primaryText);
+  border: 1px solid var(--borderPrimary);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.datePicker:disabled {
+  background-color: var(--backgroundTertiary);
+  color: var(--tertiaryText);
+  cursor: not-allowed;
+}
+
+.datePicker:focus {
+  border-color: var(--accent);
+}
+
+.errorMessage {
+  position: absolute;
+  bottom: 0;
+  font-size: 0.75rem;
+  color: var(--alert);
+}
+
+.required {
+  color: var(--alert);
+}
+
