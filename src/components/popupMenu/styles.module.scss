@@ -1,0 +1,26 @@
+.popupMenuWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.popupMenu {
+  position: absolute;
+  background: var(--backgroundTertiary);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid var(--borderPrimary);
+  z-index: 50;
+}
+
+.popupMenuItem {
+  padding: 8px 16px;
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+  border-radius: 0.25rem;
+  &:hover {
+    background: var(--background);
+  }
+}

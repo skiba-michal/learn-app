@@ -1,0 +1,16 @@
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.link {
+  color: var(--primaryText);
+  font-size: 1.6rem;
+  font-weight: 500;
+  transition: color 1s;
+}
+
+.linkActive {
+  color: var(--accentText);
+}

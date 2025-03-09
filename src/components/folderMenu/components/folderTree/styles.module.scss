@@ -1,0 +1,16 @@
+.folderWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.folderWrapperHeader {
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+  width: fit-content;
+  margin: 0.5rem 0 0.5rem 1rem;
+}
+
+.folderIcon {
+  margin-right: 0.5rem;
+}

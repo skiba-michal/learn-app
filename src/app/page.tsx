@@ -1,11 +1,11 @@
-import { FolderMenu } from "@components";
 import styles from "./page.module.scss";
-import { folderMockData } from "@mocks";
 
-export default function Home() {
+const Home = () => {
   return (
     <div className={styles.page}>
-      <FolderMenu privateFolders={folderMockData.privateFolders} publicFolders={folderMockData.publicFolders} />
+      layour
     </div>
   );
-}
+};
+
+export default Home;

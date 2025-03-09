@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: fit-content;
+  user-select: none;
+}
+
+.icon {
+  font-size: 2rem;
+  height: 35px;
+}

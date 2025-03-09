@@ -1,34 +1,53 @@
-:root {
-  --primary: #E0E0E6;
-  --secondary: #C0C0D6;
-  --tertiary: #A0A0B8;
-  --accent: #B4BEEF;
-  --alert: #E64553;
-  --background: #F8F9FA;
-  --backgroundSecondary: #EAECEF;
-  --backgroundTertiary: #DDE1E6;
-  --primaryText: #2A2A2E;
-  --secondaryText: #52525A;
-  --tertiaryText: #7A7A85;
-  --accentText: #4C5B9B;
-}
+// :root {
+//   --primary: #E0E0E6;
+//   --secondary: #C0C0D6;
+//   --tertiary: #A0A0B8;
+//   --accent: #B4BEEF;
+//   --alert: #E64553;
+//   --background: #F8F9FA;
+//   --backgroundSecondary: #EAECEF;
+//   --backgroundTertiary: #DDE1E6;
+//   --primaryText: #2A2A2E;
+//   --secondaryText: #52525A;
+//   --tertiaryText: #7A7A85;
+//   --accentText: #4C5B9B;
+// }
 
-@media (prefers-color-scheme: dark) {
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     --primary: #1E1E2E;
+//     --secondary: #313244;
+//     --tertiary: #3E3E4D;
+//     --accent: #4C5B9B;
+//     --alert: #D64553;
+//     --background: #181825;
+//     --backgroundSecondary: #1E1E2E;
+//     --backgroundTertiary: #2A2A3A;
+//     --primaryText: #E0E0E6;
+//     --secondaryText: #B0B0C0;
+//     --tertiaryText: #88889A;
+//     --accentText: #B4BEEF;
+//   }
+// }
+
   :root {
     --primary: #1E1E2E;
     --secondary: #313244;
     --tertiary: #3E3E4D;
     --accent: #4C5B9B;
     --alert: #D64553;
+
     --background: #181825;
     --backgroundSecondary: #1E1E2E;
     --backgroundTertiary: #2A2A3A;
+
     --primaryText: #E0E0E6;
     --secondaryText: #B0B0C0;
     --tertiaryText: #88889A;
     --accentText: #B4BEEF;
+
+    --borderPrimary: #404060;
   }
-}
 
 html,
 body {
@@ -42,6 +61,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--backgroundTertiary);
 }
 
 * {
@@ -53,4 +74,22 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--backgroundTertiary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
