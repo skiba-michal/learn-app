@@ -1,41 +1,23 @@
 "use client";
 import { useState } from "react";
+import "./globals.scss";
+import "./grid.scss";
 import styles from "./page.module.scss";
-import { Button, Modal, RadioButton, Select } from "@components";
+import { FormGenerator } from "@components";
+import { formGeneratorMock } from "@mocks";
 
 const Home = () => {
-  const [open, setOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("");
-  const [error, setError] = useState("");
-
-  const handleSelectChange = (value: string) => {
-    setSelectedOption(value);
-    setError(value ? "" : "Wybór jest wymagany");
-  };
-
-  const options = [
-    { label: "Opcja 1", value: "option1" },
-    { label: "Opcja 2", value: "option2" },
-    { label: "Opcja 3", value: "option3" },
-  ];
   return (
     <div className={styles.page}>
-      layour
-      <Button variant="primary" onClick={() => setOpen(true)}>open</Button>
-      <Button variant="secondary"  onClick={() => setOpen(true)}>open</Button>
-      <Button variant="primary" disabled  onClick={() => setOpen(true)}>open</Button>
-      <Button variant="secondary" disabled  onClick={() => setOpen(true)}>open</Button>
-      <Modal isOpen={open} onClose={() => setOpen(false)}>test</Modal>
-
-      <Select
-        options={options}
-        value={selectedOption}
-        onChange={handleSelectChange}
-        error={error}
-        label="Wybierz opcję"
-        isRequired
-        maxWidth="300px"
-      />
+      <div className="container">
+        <div className="row">
+          <div className="col-3 ">Kolumna 1</div>
+          <div className="col-6 ">Kolumna 1</div>
+          <div className="col-12 ">Kolumna 2</div>
+          <div className="col-12 ">Kolumna 3</div>
+        </div>
+      </div>
+      <FormGenerator formItems={formGeneratorMock} />
     </div>
   );
 };

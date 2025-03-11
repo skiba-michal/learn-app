@@ -1,12 +1,7 @@
 "use client";
 import React from "react";
 import styles from "./styles.module.scss";
-
-interface RadioOption {
-  label: string;
-  value: string;
-  disabled?: boolean;
-}
+import { RadioOption } from "@interfaces";
 
 interface RadioButtonProps {
   name: string;
@@ -18,11 +13,23 @@ interface RadioButtonProps {
   maxWidth?: string;
   label?: string;
   disabled?: boolean;
+  className?: string;
 }
 
-export const RadioButton = ({ name, options, value, isRequired, error, onChange, maxWidth, label, disabled }: RadioButtonProps) => {
+export const RadioButton = ({
+  name,
+  options,
+  value,
+  isRequired,
+  error,
+  onChange,
+  maxWidth,
+  label,
+  disabled,
+  className = "",
+}: RadioButtonProps) => {
   return (
-    <div className={styles.radioButtonWrapper} style={{ maxWidth }}>
+    <div className={`${styles.radioButtonWrapper} ${className}`} style={{ maxWidth }}>
       {label && (
         <label className={styles.label}>
           {label} {isRequired && <span className={styles.required}>*</span>}

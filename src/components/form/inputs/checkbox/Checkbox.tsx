@@ -10,11 +10,12 @@ interface CheckboxProps {
   error?: string;
   onChange?: (checked: boolean) => void;
   maxWidth?: string;
+  className?: string;
 }
 
-export const Checkbox = ({ label, checked, disabled, isRequired, error, onChange, maxWidth }: CheckboxProps) => {
+export const Checkbox = ({ label, checked, disabled, isRequired, error, onChange, maxWidth, className = '' }: CheckboxProps) => {
   return (
-    <div className={styles.checkboxWrapper} style={{ maxWidth }}>
+    <div className={`${styles.checkboxWrapper} ${className}`} style={{ maxWidth }}>
       <label className={`${styles.checkboxLabel} ${disabled ? styles.disabled : ""}`}>
         <input
           type="checkbox"

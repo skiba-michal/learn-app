@@ -12,10 +12,11 @@ interface SelectProps {
   error?: string;
   maxWidth?: string;
   disabled?: boolean;
+  className?: string;
 }
 
-export const Select = ({ options, value, onChange, label, isRequired, error, maxWidth, disabled }: SelectProps) => (
-  <div className={styles.selectWrapper} style={{ maxWidth }}>
+export const Select = ({ options, value, onChange, label, isRequired, error, maxWidth, disabled, className = "" }: SelectProps) => (
+  <div className={`${styles.selectWrapper} ${className}`} style={{ maxWidth }}>
     {label && (
       <label className={styles.label}>
         {label} {isRequired && <span className={styles.required}>*</span>}

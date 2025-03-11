@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
+import { InputNumberType } from "@interfaces";
 
 interface InputNumberProps {
   label?: string;
@@ -11,14 +12,15 @@ interface InputNumberProps {
   error?: string;
   value?: string;
   onChange?: (value: string) => void;
-  type?: "integer" | "float";
+  type?: InputNumberType;
   onlyPositive?: boolean;
   maxWidth?: string;
+  className?: string;
 }
 
 export const InputNumber = ({
   label,
-  placeholder = "Wpisz liczbę...",
+  placeholder = "",
   maxLength,
   disabled = false,
   isRequired = false,
@@ -28,6 +30,7 @@ export const InputNumber = ({
   type = "integer",
   onlyPositive = false,
   maxWidth,
+  className = ""
 }: InputNumberProps) => {
   const [inputValue, setInputValue] = useState(value);
 
@@ -52,7 +55,7 @@ export const InputNumber = ({
   };
 
   return (
-    <div className={styles.inputContainer} style={{ maxWidth }}>
+    <div className={`${styles.inputContainer} ${className}`} style={{ maxWidth }}>
       {label && (
         <label className={styles.label}>
           {label} {isRequired && <span className={styles.required}>*</span>}

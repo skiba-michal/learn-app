@@ -1,4 +1,5 @@
 import { FolderMenuElementType } from "@enums";
+import { FormItem } from "src/components/form/formGenerator/FormGenerator";
 
 export const folderMockData = {
     privateFolders: [
@@ -446,4 +447,68 @@ export const folderMockData = {
     ],
   };
   
-  
+  export const options = [
+    { label: "Opcja 1", value: "option1" },
+    { label: "Opcja 2", value: "option2" },
+    { label: "Opcja 3", value: "option3" },
+  ];
+
+  export const formGeneratorMock: FormItem[] = [
+    {
+      id: 'checkbox',
+      label: 'Checkbox',
+      inputFormType: 'checkbox',
+      required: true,
+      defaultValue: true,
+    },
+    {
+      id: 'datePicker',
+      label: 'DatePicker',
+      inputFormType: 'datePicker',
+      required: true,
+    },
+    {
+      id: 'input',
+      label: 'Input',
+      inputFormType: 'input',
+      required: true,
+      placeholder: "Input placeholder",
+      maxLength: 50,
+    },
+    {
+      id: 'input2',
+      label: 'Input2',
+      inputFormType: 'input',
+      disabled: true,
+      placeholder: "Input disabled",
+      defaultValue: "Input default disabled",
+    },
+    {
+      id: 'inputNumber',
+      label: 'InputNumber',
+      inputFormType: 'inputNumber',
+    },
+    {
+      id: 'radioButton',
+      label: 'RadioButton',
+      inputFormType: 'radioButton',
+      options: options,
+    },
+    {
+      id: 'select',
+      label: 'Select',
+      inputFormType: 'select',
+      options: options,
+    },
+    {
+      id: 'switch',
+      label: 'Switch',
+      inputFormType: 'switch',
+    },
+    {
+      id: 'textarea',
+      label: 'Textarea',
+      inputFormType: 'textarea',
+      rows: 5,
+    }
+  ];

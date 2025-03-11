@@ -1,18 +1,20 @@
 "use client";
 import React from "react";
 import styles from "./styles.module.scss";
+import { InputType } from "@interfaces";
 
 interface InputProps {
   label?: string;
-  type?: 'text' | 'password' | 'email';
+  type?: InputType;
   placeholder?: string;
   maxLength?: number;
   disabled?: boolean;
   isRequired?: boolean;
   error?: string;
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: string) => void;
   maxWidth?: string;
+  className?: string;
 }
 
 export const Input = ({
@@ -26,10 +28,15 @@ export const Input = ({
   value,
   onChange,
   maxWidth,
+  className = "",
 }: InputProps) => {
   return (
-    <div className={styles.inputContainer} style={{ maxWidth }}>
-      {label && <label className={styles.label}>{label} {isRequired && <span className={styles.required}>*</span>}</label>}
+    <div className={`${styles.inputContainer} ${className}`} style={{ maxWidth }}>
+      {label && (
+        <label className={styles.label}>
+          {label} {isRequired && <span className={styles.required}>*</span>}
+        </label>
+      )}
       <input
         type={type}
         className={`${styles.input} ${error ? styles.error : ""} ${disabled ? styles.disabled : ""}`}
@@ -38,7 +45,7 @@ export const Input = ({
         disabled={disabled}
         required={isRequired}
         value={value}
-        onChange={onChange}
+        onChange={(e) => onChange(e.target.value)}
       />
       {error && <p className={styles.errorMessage}>{error}</p>}
     </div>

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
+import { TextareaResizeType } from "@interfaces";
 
 interface TextareaProps {
   label?: string;
@@ -11,14 +12,15 @@ interface TextareaProps {
   error?: string;
   value?: string;
   rows?: number;
-  resize?: "none" | "vertical" | "horizontal" | "both";
+  resize?: TextareaResizeType
   onChange?: (value: string) => void;
   maxWidth?: string;
+  className?: string;
 }
 
 export const Textarea = ({
   label,
-  placeholder = "Wpisz tekst...",
+  placeholder = "",
   maxLength,
   disabled = false,
   isRequired = false,
@@ -28,6 +30,7 @@ export const Textarea = ({
   resize = "vertical",
   onChange,
   maxWidth,
+  className = "",
 }: TextareaProps) => {
   const [text, setText] = useState(value);
 
@@ -41,7 +44,7 @@ export const Textarea = ({
   };
 
   return (
-    <div className={styles.textareaContainer} style={{ maxWidth }}>
+    <div className={`${styles.textareaContainer} ${className}`} style={{ maxWidth }}>
       {label && (
         <label className={styles.label}>
           {label} {<span className={styles.required}>*</span>}

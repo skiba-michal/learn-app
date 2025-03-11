@@ -12,11 +12,27 @@ interface DatePickerProps {
   maxDate?: string;
   label?: string;
   isRequired?: boolean;
+  className?: string;
 }
 
-export const DatePicker = ({ value, onChange, disabled, error, maxWidth, minDate, maxDate, label, isRequired }: DatePickerProps) => (
-  <div className={styles.datePickerWrapper} style={{ maxWidth }}>
-    {label && <label className={styles.label}>{label} {isRequired && <span className={styles.required}>*</span>}</label>}
+export const DatePicker = ({
+  value,
+  onChange,
+  disabled,
+  error,
+  maxWidth,
+  minDate,
+  maxDate,
+  label,
+  isRequired,
+  className = "",
+}: DatePickerProps) => (
+  <div className={`${styles.datePickerWrapper} ${className}`} style={{ maxWidth }}>
+    {label && (
+      <label className={styles.label}>
+        {label} {isRequired && <span className={styles.required}>*</span>}
+      </label>
+    )}
     <input
       type="date"
       className={styles.datePicker}

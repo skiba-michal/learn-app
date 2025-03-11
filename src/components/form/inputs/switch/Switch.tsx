@@ -8,11 +8,12 @@ interface SwitchProps {
   error?: string;
   onChange?: (checked: boolean) => void;
   maxWidth?: string;
+  className?: string;
 }
 
-export const Switch = ({ checked, disabled, error, onChange, maxWidth }: SwitchProps) => {
+export const Switch = ({ checked, disabled, error, onChange, maxWidth, className = "" }: SwitchProps) => {
   return (
-    <div className={styles.switchWrapper} style={{ maxWidth }}>
+    <div className={`${styles.switchWrapper} ${className}`} style={{ maxWidth }}>
       <label className={`${styles.switchLabel} ${disabled ? styles.disabled : ""}`}>
         <input
           type="checkbox"
