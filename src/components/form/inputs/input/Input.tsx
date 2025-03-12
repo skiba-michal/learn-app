@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import styles from "./styles.module.scss";
 import { InputType } from "@interfaces";
 
@@ -12,7 +12,7 @@ interface InputProps {
   isRequired?: boolean;
   error?: string;
   value?: string;
-  onChange: (e: string) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   maxWidth?: string;
   className?: string;
 }
@@ -45,7 +45,7 @@ export const Input = ({
         disabled={disabled}
         required={isRequired}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={onChange}
       />
       {error && <p className={styles.errorMessage}>{error}</p>}
     </div>

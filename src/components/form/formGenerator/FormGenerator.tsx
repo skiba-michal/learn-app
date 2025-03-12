@@ -1,7 +1,7 @@
 "use client";
 import { InputFormType, InputNumberType, InputType, Option, RadioOption, TextareaResizeType } from "@interfaces";
-import { Input } from "@components";
-import { useEffect, useState } from "react";
+import { Checkbox, Input } from "@components";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export interface FormItem {
   id: string;
@@ -14,7 +14,7 @@ export interface FormItem {
   required?: boolean;
   defaultValue?: FormItemValue;
   disabled?: boolean;
-  onChange?: (value: FormItemValue) => void;
+  onChange?: (value: ChangeEvent<HTMLInputElement> | boolean) => void;
   className?: string;
   maxWidth?: string;
   minDate?: string;
@@ -41,10 +41,19 @@ export const FormGenerator = ({ formItems }: FormGeneratorProps) => {
     setFormData(defaultValues);
   }, [formItems]);
 
-  const handleOnChange = (value: FormItemValue, item: FormItem) => {
-    setFormData((prev) => ({ ...prev, [item.id]: value }));
+  const handleOnChange = (value: ChangeEvent<HTMLInputElement> | boolean, item: FormItem) => {
+    const extractedValues = getValue(value, item.inputFormType);
+    setFormData((prev) => ({ ...prev, [item.id]: extractedValues }));
     if (item.onChange) item.onChange(value);
   };
+
+  const getValue = (value: ChangeEvent<HTMLInputElement> | boolean, type: InputFormType): FormItemValue => {
+    const booleanValuesFormTypes = ["checkbox"];
+    const eventFormTypes = ["input", "textarea"];
+    if (booleanValuesFormTypes.includes(type)) return value as boolean;
+    if (eventFormTypes.includes(type)) return (value as ChangeEvent<HTMLInputElement>).target.value;
+    return null;
+  }
 
   return (
     <div>
@@ -61,6 +70,22 @@ export const FormGenerator = ({ formItems }: FormGeneratorProps) => {
               isRequired={item.required}
               value={formData[item.id] as string || ''}
               onChange={(value) => handleOnChange(value, item)}
+              maxWidth={item.maxWidth}
+              className={item.className}
+            />
+          );
+        }
+        if (item.inputFormType === "checkbox") {
+          return (
+            <Checkbox
+              key={item.id}
+              label={item.label}
+              disabled={item.disabled}
+              isRequired={item.required}
+              checked={formData[item.id] as boolean}
+              onChange={(value) => handleOnChange(value, item)}
+              maxWidth={item.maxWidth}
+              className={item.className}
             />
           );
         }
