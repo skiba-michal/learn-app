@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import styles from "./styles.module.scss";
 import { TextareaResizeType } from "@interfaces";
 
-interface TextareaProps {
+export interface TextareaProps {
   label?: string;
   placeholder?: string;
   maxLength?: number;
@@ -12,8 +12,9 @@ interface TextareaProps {
   error?: string;
   value?: string;
   rows?: number;
-  resize?: TextareaResizeType
-  onChange?: (value: string) => void;
+  resize?: TextareaResizeType;
+  onChange?: (value: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onBlur?: (value: string) => void;
   maxWidth?: string;
   className?: string;
 }
@@ -29,18 +30,16 @@ export const Textarea = ({
   rows = 4,
   resize = "vertical",
   onChange,
+  onBlur = () => {},
   maxWidth,
   className = "",
 }: TextareaProps) => {
-  const [text, setText] = useState(value);
-
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     let val = e.target.value;
 
     if (maxLength && val.length > maxLength) val = val.slice(0, maxLength);
 
-    setText(val);
-    onChange?.(val);
+    onChange?.(e);
   };
 
   return (
@@ -58,12 +57,13 @@ export const Textarea = ({
         required={isRequired}
         rows={rows}
         style={{ resize }}
-        value={text}
+        value={value}
         onChange={handleChange}
+        onBlur={(e) => onBlur(e.target.value)}
       />
       {maxLength && (
         <div className={styles.charCounter}>
-          {text.length}/{maxLength}
+          {value.length}/{maxLength}
         </div>
       )}
       {error && <p className={styles.errorMessage}>{error}</p>}

@@ -59,5 +59,15 @@
   position: absolute;
   bottom: 2px;
   font-size: 0.75rem;
-  color: var(--alert)
+  color: var(--alert);
+}
+
+.label {
+  font-size: 14px;
+  color: var(--primaryText);
+  margin-bottom: 4px;
+}
+
+.required {
+  color: var(--alert);
 }

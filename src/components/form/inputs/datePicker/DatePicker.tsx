@@ -2,9 +2,10 @@
 import React from "react";
 import styles from "./styles.module.scss";
 
-interface DatePickerProps {
+export interface DatePickerProps {
   value: string;
   onChange: (value: string) => void;
+  onBlur?: (value: string) => void;
   disabled?: boolean;
   error?: string;
   maxWidth?: string;
@@ -18,6 +19,7 @@ interface DatePickerProps {
 export const DatePicker = ({
   value,
   onChange,
+  onBlur = () => {},
   disabled,
   error,
   maxWidth,
@@ -38,6 +40,7 @@ export const DatePicker = ({
       className={styles.datePicker}
       value={value}
       onChange={(e) => onChange(e.target.value)}
+      onBlur={(e) => onBlur(e.target.value)}
       disabled={disabled}
       min={minDate}
       max={maxDate}

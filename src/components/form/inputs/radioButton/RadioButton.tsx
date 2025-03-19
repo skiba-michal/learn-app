@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./styles.module.scss";
 import { RadioOption } from "@interfaces";
 
-interface RadioButtonProps {
+export interface RadioButtonProps {
   name: string;
   options: RadioOption[];
   value?: string;
@@ -14,6 +14,7 @@ interface RadioButtonProps {
   label?: string;
   disabled?: boolean;
   className?: string;
+
 }
 
 export const RadioButton = ({

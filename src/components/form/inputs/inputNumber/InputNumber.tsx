@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import { InputNumberType } from "@interfaces";
 
-interface InputNumberProps {
+export interface InputNumberProps {
   label?: string;
   placeholder?: string;
   maxLength?: number;
@@ -12,6 +12,7 @@ interface InputNumberProps {
   error?: string;
   value?: string;
   onChange?: (value: string) => void;
+  onBlur?: (value: string) => void;
   type?: InputNumberType;
   onlyPositive?: boolean;
   maxWidth?: string;
@@ -27,6 +28,7 @@ export const InputNumber = ({
   error,
   value = "",
   onChange,
+  onBlur = () => {},
   type = "integer",
   onlyPositive = false,
   maxWidth,
@@ -70,6 +72,7 @@ export const InputNumber = ({
         required={isRequired}
         value={inputValue}
         onChange={handleChange}
+        onBlur={(e) => onBlur(e.target.value)}
       />
       {error && <p className={styles.errorMessage}>{error}</p>}
     </div>

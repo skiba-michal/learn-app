@@ -2,18 +2,25 @@
 import React from "react";
 import styles from "./styles.module.scss";
 
-interface SwitchProps {
+export interface SwitchProps {
+  label?: string;
   checked?: boolean;
   disabled?: boolean;
   error?: string;
   onChange?: (checked: boolean) => void;
   maxWidth?: string;
   className?: string;
+  isRequired?: boolean;
 }
 
-export const Switch = ({ checked, disabled, error, onChange, maxWidth, className = "" }: SwitchProps) => {
+export const Switch = ({ label, checked, disabled, error, onChange, maxWidth, className = "", isRequired }: SwitchProps) => {
   return (
     <div className={`${styles.switchWrapper} ${className}`} style={{ maxWidth }}>
+      {label && (
+        <label className={styles.label}>
+          {label} {isRequired && <span className={styles.required}>*</span>}
+        </label>
+      )}
       <label className={`${styles.switchLabel} ${disabled ? styles.disabled : ""}`}>
         <input
           type="checkbox"

@@ -3,7 +3,7 @@ import React, { ChangeEvent } from "react";
 import styles from "./styles.module.scss";
 import { InputType } from "@interfaces";
 
-interface InputProps {
+export interface InputProps {
   label?: string;
   type?: InputType;
   placeholder?: string;
@@ -13,6 +13,7 @@ interface InputProps {
   error?: string;
   value?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (value: string) => void;
   maxWidth?: string;
   className?: string;
 }
@@ -27,6 +28,7 @@ export const Input = ({
   error,
   value,
   onChange,
+  onBlur = () => {},
   maxWidth,
   className = "",
 }: InputProps) => {
@@ -46,6 +48,7 @@ export const Input = ({
         required={isRequired}
         value={value}
         onChange={onChange}
+        onBlur={(e) => onBlur(e.target.value)}
       />
       {error && <p className={styles.errorMessage}>{error}</p>}
     </div>

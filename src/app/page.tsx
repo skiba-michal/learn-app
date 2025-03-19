@@ -3,20 +3,14 @@ import { useState } from "react";
 import "./globals.scss";
 import "./grid.scss";
 import styles from "./page.module.scss";
-import { FormGenerator } from "@components";
+import { Button, FormGenerator, Loader } from "@components";
 import { formGeneratorMock } from "@mocks";
-
+import { RxIdCard } from "react-icons/rx";
 const Home = () => {
   return (
     <div className={styles.page}>
-      <div className="container">
-        <div className="row">
-          <div className="col-3 ">Kolumna 1</div>
-          <div className="col-6 ">Kolumna 1</div>
-          <div className="col-12 ">Kolumna 2</div>
-          <div className="col-12 ">Kolumna 3</div>
-        </div>
-      </div>
+      <Button variant="primary" onClick={() => {}}>Text</Button>
+      <Loader  />
       <FormGenerator formItems={formGeneratorMock} />
     </div>
   );

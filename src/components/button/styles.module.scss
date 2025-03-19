@@ -1,5 +1,5 @@
 .button {
-  padding: 10px 20px;
+  padding: 8px 20px;
   border: 2px solid transparent;
   border-radius: 8px;
   font-size: 16px;
@@ -7,6 +7,12 @@
   transition: background-color 0.3s ease, border-color 0.3s ease;
   text-align: center;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  min-height: 40px;
+  user-select: none;
   
   &.primary {
     background-color: var(--accent);
@@ -16,6 +22,7 @@
     &:hover {
       background-color: var(--accentHover);
       border-color: var(--secondary);
+      transform: scale(1.01);
     }
   }
 
@@ -27,7 +34,24 @@
     &:hover {
       background-color: var(--tertiary);
       border-color: var(--tertiary);
+      transform: scale(1.01);
     }
+  }
+
+  &.danger {
+    background-color: var(--alert);
+    color: var(--primaryText);
+    border-color: var(--borderPrimary);
+
+    &:hover {
+      background-color: var(--alertHover);
+      border-color: var(--alertHover);
+      transform: scale(1.01);
+    }
+  }
+
+  &.loading {
+    cursor: not-allowed;
   }
 
   &.disabled {

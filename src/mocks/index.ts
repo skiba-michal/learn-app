@@ -1,5 +1,5 @@
 import { FolderMenuElementType } from "@enums";
-import { FormItem } from "src/components/form/formGenerator/FormGenerator";
+import { FormItem } from "src/components/form/formGenerator/formGenerator.interfaces";
 
 export const folderMockData = {
     privateFolders: [
@@ -493,6 +493,7 @@ export const folderMockData = {
       label: 'RadioButton',
       inputFormType: 'radioButton',
       options: options,
+      name: 'radioButtonName',
     },
     {
       id: 'select',
