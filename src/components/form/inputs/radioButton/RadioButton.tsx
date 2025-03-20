@@ -9,7 +9,7 @@ export interface RadioButtonProps {
   value?: string;
   isRequired?: boolean;
   error?: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   maxWidth?: string;
   label?: string;
   disabled?: boolean;
@@ -23,7 +23,7 @@ export const RadioButton = ({
   value,
   isRequired,
   error,
-  onChange,
+  onChange = () => {},
   maxWidth,
   label,
   disabled,

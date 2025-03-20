@@ -12,7 +12,7 @@ export interface InputProps {
   isRequired?: boolean;
   error?: string;
   value?: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (value: string) => void;
   maxWidth?: string;
   className?: string;
@@ -27,7 +27,7 @@ export const Input = ({
   isRequired = false,
   error,
   value,
-  onChange,
+  onChange = () => {},
   onBlur = () => {},
   maxWidth,
   className = "",

@@ -2,15 +2,17 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import { Loader } from "@components";
+import { ButtonVariants, LeftRightPosition } from "@interfaces";
 
 interface ButtonProps {
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "danger";
+  variant?: ButtonVariants;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
   Icon?: React.ReactNode;
-  iconPosition?: "left" | "right";
+  iconPosition?: LeftRightPosition
   isLoading?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 export const Button = ({
@@ -21,12 +23,14 @@ export const Button = ({
   Icon,
   iconPosition = "left",
   isLoading,
+  type = 'button',
 }: ButtonProps) => {
   return (
     <button
       className={`${styles.button} ${styles[variant]} ${disabled ? styles.disabled : ""} ${isLoading ? styles.loading : ""}`}
       onClick={disabled || isLoading ? undefined : onClick}
       disabled={disabled || isLoading}
+      type={type}
     >
       {isLoading && (
         <div className="center">

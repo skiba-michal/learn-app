@@ -27,7 +27,7 @@ export const InputNumber = ({
   isRequired = false,
   error,
   value = "",
-  onChange,
+  onChange = () => {},
   onBlur = () => {},
   type = "integer",
   onlyPositive = false,
@@ -53,7 +53,7 @@ export const InputNumber = ({
     if (maxLength && val.length > maxLength) val = val.slice(0, maxLength);
 
     setInputValue(val);
-    onChange?.(val);
+    onChange(val);
   };
 
   return (

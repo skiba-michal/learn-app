@@ -1,13 +1,13 @@
 .selectWrapper {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
   padding-bottom: 1.25rem;
   position: relative;
 }
 
 .label {
-  font-size: 14px;
+  font-size: 0.9rem;
   color: var(--primaryText);
   margin-bottom: 4px;
 }
@@ -20,13 +20,13 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding: 10px;
+  padding: 0.75rem;
   background-color: var(--backgroundSecondary);
   color: var(--primaryText);
   border: 2px solid var(--borderPrimary);
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 1rem;
   width: 100%;
   transition: border-color 0.3s ease;
 }
@@ -39,6 +39,7 @@
 
 .selectInput:focus {
   border-color: var(--accent);
+  outline: none;
 }
 
 .errorMessage {

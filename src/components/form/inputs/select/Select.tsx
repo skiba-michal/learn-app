@@ -5,8 +5,8 @@ import { Option } from "@interfaces";
 
 export interface SelectProps {
   options: Option[];
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
+  onChange?: (value: string) => void;
   onBlur?: (value: string) => void;
   label?: string;
   isRequired?: boolean;
@@ -19,7 +19,7 @@ export interface SelectProps {
 export const Select = ({
   options,
   value,
-  onChange,
+  onChange = () => {},
   onBlur = () => {},
   label,
   isRequired,

@@ -3,8 +3,8 @@ import React from "react";
 import styles from "./styles.module.scss";
 
 export interface DatePickerProps {
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
+  onChange?: (value: string) => void;
   onBlur?: (value: string) => void;
   disabled?: boolean;
   error?: string;
@@ -18,7 +18,7 @@ export interface DatePickerProps {
 
 export const DatePicker = ({
   value,
-  onChange,
+  onChange = () => {},
   onBlur = () => {},
   disabled,
   error,

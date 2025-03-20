@@ -1,36 +1,52 @@
 "use client";
-import { InputFormType, Option, RadioOption } from "@interfaces";
-import { Checkbox, DatePicker, Input, InputNumber, RadioButton, Select, Switch, Textarea } from "@components";
-import { ChangeEvent, useEffect, useState } from "react";
+import { Option, RadioOption, ValidationType } from "@interfaces";
+import { Button, Checkbox, DatePicker, Input, InputNumber, RadioButton, Select, Switch, Textarea } from "@components";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import { FormItem, FormItemValue, FormOnChangeValue, isStringOrBooleanType } from "./formGenerator.interfaces";
+import {
+  CancelButtonProps,
+  FormGeneratorData,
+  FormGeneratorErrors,
+  FormItem,
+  FormItemValue,
+  FormOnChangeValue,
+  SaveButtonProps,
+} from "./formGenerator.interfaces";
+import { getValue, handleValidationInput, handleValidationInputNumber } from "./formGenerator.utils";
 
 interface FormGeneratorProps {
   formItems: FormItem[];
-  validationType?: "onBlur" | "onChange" | "onSubmit";
+  validationType?: ValidationType;
+  onSubmit?: (data: FormGeneratorData) => void;
+  isSubmitProcessing?: boolean;
+  disableFields?: boolean;
+  disableSubmit?: boolean;
+  saveButton?: SaveButtonProps;
+  cancelButton?: CancelButtonProps;
 }
 
-// To do 
-// wywalic czesc na zewnątrz
-// validacja do porzadku
-// validacja na onSubmit
-
-const booleanValuesFormTypes: InputFormType[] = ["checkbox", "switch"] as const;
-const eventFormTypes: InputFormType[] = ["input", "textarea"] as const;
-const stringFromTypes: InputFormType[] = ["datePicker", "inputNumber", "radioButton", "select"] as const;
-
-export const FormGenerator = ({ formItems, validationType = "onSubmit" }: FormGeneratorProps) => {
-  const [formData, setFormData] = useState<{ [key: string]: FormItemValue }>({});
+export const FormGenerator = ({
+  formItems,
+  validationType = "onSubmit",
+  onSubmit = () => {},
+  isSubmitProcessing,
+  disableFields,
+  disableSubmit,
+  saveButton,
+  cancelButton,
+}: FormGeneratorProps) => {
+  const [formData, setFormData] = useState<FormGeneratorData>({});
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+  const [isFormHasFirstSubmit, setIsFormHasFirstSubmit] = useState(false);
 
   useEffect(() => {
-    const defaultValues = formItems.reduce((acc: { [key: string]: FormItemValue }, item) => {
+    const defaultValues = formItems.reduce((acc: FormGeneratorData, item) => {
       acc[item.id] = item.defaultValue ?? "";
       return acc;
     }, {});
     setFormData(defaultValues);
 
-    const errorsDefault = formItems.reduce((acc: { [key: string]: string }, item) => {
+    const errorsDefault = formItems.reduce((acc: FormGeneratorErrors, item) => {
       acc[item.id] = "";
       return acc;
     }, {});
@@ -39,150 +55,178 @@ export const FormGenerator = ({ formItems, validationType = "onSubmit" }: FormGe
 
   const handleOnChange = (value: FormOnChangeValue, item: FormItem) => {
     const extractedValues = getValue(value, item.inputFormType);
-    const typeValue = isStringOrBoolean(extractedValues, item);
 
-    if (validationType === "onChange") handleValidation(extractedValues, item);
+    if (validationType === "onChange" || validationType === "all") handleValidation(extractedValues, item);
 
     setFormData((prev) => ({ ...prev, [item.id]: extractedValues }));
     if (!item.handleChange) return;
 
-    if (typeValue === "boolean" && typeof extractedValues === "boolean") {
-      item.handleChange(extractedValues as never, item);
-      return;
-    }
-
-    if (typeValue === "string" && typeof extractedValues === "string") item.handleChange(extractedValues as never, item);
-  };
-
-  const isStringOrBoolean = (value: FormItemValue, item: FormItem): isStringOrBooleanType => {
-    const isEventType = item.inputFormType === "input" || item.inputFormType === "textarea";
-    const isStringFormType =
-      item.inputFormType === "datePicker" ||
-      item.inputFormType === "inputNumber" ||
-      item.inputFormType === "radioButton" ||
-      item.inputFormType === "select";
-    const isBooleanType = item.inputFormType === "checkbox" || item.inputFormType === "switch";
-
-    if (isBooleanType && typeof value === "boolean") return "boolean";
-    if ((isEventType || isStringFormType) && typeof value === "string") return "string";
-    return null;
+    item.handleChange(extractedValues as never, item);
   };
 
   const handleValidation = (value: FormItemValue, item: FormItem) => {
-    if (!item.customValidation) return;
-    const typeValue = isStringOrBoolean(value, item);
+    console.log(value)
+    if (item.isRequired && !value) {
+      setFormErrors((prev) => ({ ...prev, [item.id]: "Pole jest wymagane" }));
+      return;
+    }
+    if (item.validation?.customValidation) {
+      const validationMessage = item.validation.customValidation(value as never, item.id, formData);
+      if (validationMessage) {
+        setFormErrors((prev) => ({ ...prev, [item.id]: validationMessage }));
+        return;
+      }
+    }
 
-    if (typeValue === "boolean" && typeof value === "boolean") {
-      const validationMessage = item.customValidation(value as never);
-      setFormErrors((prev) => ({ ...prev, [item.id]: validationMessage }));
-      return;
+    if (item.inputFormType === "input") {
+      const validationMessage = handleValidationInput(value as never, item);
+      if (validationMessage) {
+        setFormErrors((prev) => ({ ...prev, [item.id]: validationMessage }));
+        return;
+      }
     }
-    if (typeValue === "string" && typeof value === "string") {
-      const validationMessage = item.customValidation(value as never);
-      setFormErrors((prev) => ({ ...prev, [item.id]: validationMessage }));
-      return;
+
+    if (item.inputFormType === "inputNumber" || item.inputFormType === "textarea") {
+      const validationMessage = handleValidationInputNumber(value as never, item);
+      if (validationMessage) {
+        setFormErrors((prev) => ({ ...prev, [item.id]: validationMessage }));
+        return;
+      }
     }
+    setFormErrors((prev) => ({ ...prev, [item.id]: "" }));
   };
 
   const handleValidationOnBlur = (value: FormItemValue, item: FormItem) => {
-    if (validationType !== "onBlur") return;
+    if (validationType !== "onBlur" && !isFormHasFirstSubmit) return;
     handleValidation(value, item);
   };
 
-  const getValue = (value: FormOnChangeValue, type: InputFormType): FormItemValue => {
-    if (booleanValuesFormTypes.includes(type)) return value as boolean;
-    if (eventFormTypes.includes(type)) return (value as ChangeEvent<HTMLInputElement>).target.value;
-    if (stringFromTypes.includes(type)) return value as string;
-    return null;
+  const isFormValid = () => {
+    return Object.values(formErrors).every((error) => !error);
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsFormHasFirstSubmit(true);
+    if (validationType === "onSubmit" || validationType === "all") {
+      formItems.forEach((item) => handleValidation(formData[item.id], item));
+      console.log(formErrors);
+    }
+    const isValid = isFormValid();
+    if (isValid) onSubmit(formData);
   };
 
   return (
-    <form>
-      <div>
-        {formItems.map((item) => {
-          const commonProps = {
-            label: item.label,
-            disabled: item.disabled,
-            isRequired: item.isRequired,
-            maxWidth: item.maxWidth,
-            className: item.className,
-            error: formErrors[item.id],
-            onChange: (value: FormOnChangeValue) => handleOnChange(value, item),
-            onBlur: (value: string) => handleValidationOnBlur(value, item),
-          };
+    <form className="container">
+      {formItems.map((item) => {
+        const commonProps = {
+          label: item.label,
+          disabled: item.disabled || disableFields,
+          isRequired: item.isRequired,
+          maxWidth: item.maxWidth,
+          className: item.className,
+          error: formErrors[item.id],
+          onChange: (value: FormOnChangeValue) => handleOnChange(value, item),
+          onBlur: (value: string) => handleValidationOnBlur(value, item),
+        };
 
-          if (item.inputFormType === "checkbox") {
-            return <Checkbox {...commonProps} key={item.id} checked={!!formData[item.id] as boolean} />;
-          }
-          if (item.inputFormType === "datePicker") {
-            return (
-              <DatePicker
-                {...commonProps}
-                key={item.id}
-                value={(formData[item.id] as string) || ""}
-                minDate={item.minDate}
-                maxDate={item.maxDate}
-              />
-            );
-          }
-          if (item.inputFormType === "input") {
-            return (
-              <Input
-                {...commonProps}
-                key={item.id}
-                type={item.type}
-                placeholder={item.placeholder}
-                maxLength={item.maxLength}
-                value={(formData[item.id] as string) || ""}
-              />
-            );
-          }
-          if (item.inputFormType === "inputNumber") {
-            return (
-              <InputNumber
-                {...commonProps}
-                key={item.id}
-                placeholder={item.placeholder}
-                value={(formData[item.id] as string) || ""}
-                type={item.type}
-                onlyPositive={item.onlyPositive}
-              />
-            );
-          }
-          if (item.inputFormType === "radioButton") {
-            return (
-              <RadioButton
-                {...commonProps}
-                key={item.id}
-                value={(formData[item.id] as string) || ""}
-                options={item.options as RadioOption[]}
-                name={item.name || item.id}
-              />
-            );
-          }
-          if (item.inputFormType === "select") {
-            return <Select {...commonProps} key={item.id} value={(formData[item.id] as string) || ""} options={item.options as Option[]} />;
-          }
-          if (item.inputFormType === "switch") {
-            return <Switch {...commonProps} key={item.id} checked={!!formData[item.id] as boolean} />;
-          }
-          if (item.inputFormType === "textarea") {
-            return (
-              <Textarea
-                {...commonProps}
-                key={item.id}
-                placeholder={item.placeholder}
-                maxLength={item.maxLength}
-                value={(formData[item.id] as string) || ""}
-                rows={item.rows}
-                resize={item.resize}
-              />
-            );
-          }
-          return null;
-        })}
+        if (item.inputFormType === "checkbox") {
+          return <Checkbox {...commonProps} key={item.id} checked={!!formData[item.id] as boolean} />;
+        }
+        if (item.inputFormType === "datePicker") {
+          return (
+            <DatePicker
+              {...commonProps}
+              key={item.id}
+              value={(formData[item.id] as string) || ""}
+              minDate={item.minDate}
+              maxDate={item.maxDate}
+            />
+          );
+        }
+        if (item.inputFormType === "input") {
+          return (
+            <Input
+              {...commonProps}
+              key={item.id}
+              type={item.type}
+              placeholder={item.placeholder}
+              maxLength={item.maxLength}
+              value={(formData[item.id] as string) || ""}
+            />
+          );
+        }
+        if (item.inputFormType === "inputNumber") {
+          return (
+            <InputNumber
+              {...commonProps}
+              key={item.id}
+              placeholder={item.placeholder}
+              value={(formData[item.id] as string) || ""}
+              type={item.type}
+              onlyPositive={item.onlyPositive}
+            />
+          );
+        }
+        if (item.inputFormType === "radioButton") {
+          return (
+            <RadioButton
+              {...commonProps}
+              key={item.id}
+              value={(formData[item.id] as string) || ""}
+              options={item.options as RadioOption[]}
+              name={item.name || item.id}
+            />
+          );
+        }
+        if (item.inputFormType === "select") {
+          return <Select {...commonProps} key={item.id} value={(formData[item.id] as string) || ""} options={item.options as Option[]} />;
+        }
+        if (item.inputFormType === "switch") {
+          return <Switch {...commonProps} key={item.id} checked={!!formData[item.id] as boolean} />;
+        }
+        if (item.inputFormType === "textarea") {
+          return (
+            <Textarea
+              {...commonProps}
+              key={item.id}
+              placeholder={item.placeholder}
+              maxLength={item.maxLength}
+              value={(formData[item.id] as string) || ""}
+              rows={item.rows}
+              resize={item.resize}
+            />
+          );
+        }
+        return null;
+      })}
+
+      <div className={`${styles.footer} col-12`}>
+        <div>
+          {cancelButton && (
+            <Button
+              variant={cancelButton.variant || "secondary"}
+              onClick={cancelButton.onClick}
+              Icon={cancelButton.Icon}
+              iconPosition={cancelButton.iconPosition}
+            >
+              {cancelButton.text}
+            </Button>
+          )}
+        </div>
+        <div>
+          <Button
+            onClick={handleSubmit}
+            isLoading={isSubmitProcessing}
+            variant={saveButton?.variant || "primary"}
+            iconPosition={saveButton?.iconPosition}
+            disabled={disableSubmit || isSubmitProcessing}
+            type="submit"
+          >
+            {saveButton?.text || "Zapisz"}
+          </Button>
+        </div>
       </div>
-      <div className={styles.footer}>{/* <Button></Button> */}</div>
     </form>
   );
 };

@@ -29,7 +29,7 @@ export const Textarea = ({
   value = "",
   rows = 4,
   resize = "vertical",
-  onChange,
+  onChange = () => {},
   onBlur = () => {},
   maxWidth,
   className = "",
@@ -39,7 +39,7 @@ export const Textarea = ({
 
     if (maxLength && val.length > maxLength) val = val.slice(0, maxLength);
 
-    onChange?.(e);
+    onChange(e);
   };
 
   return (

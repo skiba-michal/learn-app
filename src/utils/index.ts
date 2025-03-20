@@ -1,5 +1,8 @@
 import { PrivateFolderMenuElement, PublicFolderMenuElement } from "@components";
 
+export const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).*$/;
+export const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 export const sortFolderMenuElementsByLabel = (folderMenuElements: PrivateFolderMenuElement[] | PublicFolderMenuElement[]) => {
   if (!folderMenuElements) return [];
   return folderMenuElements
