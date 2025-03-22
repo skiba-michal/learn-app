@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { FolderMenu, Header } from "@components";
 import { folderMockData } from "@mocks";
 import styles from "./layout.module.scss";
+import "./globals.scss";
+import "./grid.scss";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

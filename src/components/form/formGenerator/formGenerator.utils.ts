@@ -21,10 +21,10 @@ export const handleValidationInput = (value: string, item: FormItem) => {
 };
 
 export const handleValidationInputNumber = (value: string, item: FormItem) => {
-  if (item.validation && "min" in item.validation && item.validation.min && +value < item.validation.min)
+  if (item.validation && "min" in item.validation && (item.validation.min || item.validation.min === 0) && +value < item.validation.min)
     return `Minimalna wartość to ${item.validation.min}`;
 
-  if (item.validation && "max" in item.validation && item.validation.max && +value > item.validation.max)
+  if (item.validation && "max" in item.validation && (item.validation.max || item.validation.max === 0) && +value > item.validation.max)
     return `Maksymalna wartość to ${item.validation.max}`;
 };
 

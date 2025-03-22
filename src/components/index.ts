@@ -25,3 +25,4 @@ export type {
 } from "./form/inputs";
 export { FormGenerator } from "./form/formGenerator/FormGenerator";
 export { Loader } from "./loader/Loader";
+export { Card, Counter } from "./card/Card";

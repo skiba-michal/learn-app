@@ -467,10 +467,12 @@ export const formGeneratorMock: FormItem[] = [
     label: "Input",
     inputFormType: "input",
     isRequired: true,
+    type: 'email',
     placeholder: "Input placeholder",
     maxLength: 50,
     className: "col-xl-5 col-12",
     validation: {
+      maxLength: 10,
       // required: 'This field is required',
     }
   },
@@ -488,7 +490,13 @@ export const formGeneratorMock: FormItem[] = [
     id: "inputNumber",
     label: "InputNumber",
     inputFormType: "inputNumber",
+    onlyPositive: true,
     className: "col-xl-2",
+    type: 'float',
+    validation: {
+      min: 0,
+      max: 100,
+    }
   },
   {
     id: "select",

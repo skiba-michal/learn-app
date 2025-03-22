@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 250px;
   height: 100vh;
+  max-height: 100vh;
   background-color: var(--backgroundSecondary);
   border-right: 1px solid var(--borderPrimary);
   overflow-y: auto;

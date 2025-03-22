@@ -65,16 +65,15 @@ export const FormGenerator = ({
   };
 
   const handleValidation = (value: FormItemValue, item: FormItem) => {
-    console.log(value)
     if (item.isRequired && !value) {
       setFormErrors((prev) => ({ ...prev, [item.id]: "Pole jest wymagane" }));
-      return;
+      return false;
     }
     if (item.validation?.customValidation) {
       const validationMessage = item.validation.customValidation(value as never, item.id, formData);
       if (validationMessage) {
         setFormErrors((prev) => ({ ...prev, [item.id]: validationMessage }));
-        return;
+        return false;
       }
     }
 
@@ -82,7 +81,7 @@ export const FormGenerator = ({
       const validationMessage = handleValidationInput(value as never, item);
       if (validationMessage) {
         setFormErrors((prev) => ({ ...prev, [item.id]: validationMessage }));
-        return;
+        return false;
       }
     }
 
@@ -90,10 +89,11 @@ export const FormGenerator = ({
       const validationMessage = handleValidationInputNumber(value as never, item);
       if (validationMessage) {
         setFormErrors((prev) => ({ ...prev, [item.id]: validationMessage }));
-        return;
+        return false;
       }
     }
     setFormErrors((prev) => ({ ...prev, [item.id]: "" }));
+    return true;
   };
 
   const handleValidationOnBlur = (value: FormItemValue, item: FormItem) => {
@@ -101,19 +101,11 @@ export const FormGenerator = ({
     handleValidation(value, item);
   };
 
-  const isFormValid = () => {
-    return Object.values(formErrors).every((error) => !error);
-  };
-
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsFormHasFirstSubmit(true);
-    if (validationType === "onSubmit" || validationType === "all") {
-      formItems.forEach((item) => handleValidation(formData[item.id], item));
-      console.log(formErrors);
-    }
-    const isValid = isFormValid();
-    if (isValid) onSubmit(formData);
+    const isValidForm = formItems.map((item) => handleValidation(formData[item.id], item)).every((item) => !!item);
+    if (isValidForm) onSubmit(formData);
   };
 
   return (
@@ -121,7 +113,7 @@ export const FormGenerator = ({
       {formItems.map((item) => {
         const commonProps = {
           label: item.label,
-          disabled: item.disabled || disableFields,
+          disabled: item.disabled || disableFields || isSubmitProcessing,
           isRequired: item.isRequired,
           maxWidth: item.maxWidth,
           className: item.className,

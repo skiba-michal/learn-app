@@ -1,16 +1,11 @@
 "use client";
-import { FormGenerator } from "@components";
-import "./globals.scss";
-import "./grid.scss";
-import styles from "./page.module.scss";
-import { formGeneratorMock } from "@mocks";
+import { Card, Counter } from "@components";
 
 const Home = () => {
   return (
-    <div className={styles.page}>
-      <div className={styles.formContainer}>
-        <FormGenerator formItems={formGeneratorMock} />
-      </div>
+    <div>
+      <Card>test2</Card>
+      <Counter />
     </div>
   );
 };

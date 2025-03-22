@@ -12,7 +12,8 @@ const nextConfig = {
       "@hooks": path.resolve(__dirname, "src/hooks"),
       "@interfaces": path.resolve(__dirname, "src/interfaces"),
       "@utils": path.resolve(__dirname, "src/utils"),
-      "@mocks": path.resolve(__dirname, "src/mocks")
+      "@mocks": path.resolve(__dirname, "src/mocks"),
+      "@store": path.resolve(__dirname, "src/store"),
     };
     return config;
   },

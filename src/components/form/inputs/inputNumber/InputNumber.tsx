@@ -40,12 +40,12 @@ export const InputNumber = ({
     let val = e.target.value;
 
     if (type === "integer") {
-      val = val.replace(/[^0-9-]/g, "");
-      val = val.replace(/(?!^)-/g, "");
-    } else {
-      val = val.replace(/[^0-9.-]/g, "");
-      val = val.replace(/(?!^)-/g, "");
-      val = val.replace(/(?!^\d+)\./g, "");
+      val = val.replace(/[^0-9-]/g, ""); // Usuń wszystko poza cyframi i "-"
+      val = val.replace(/(?!^)-/g, ""); // Usuń "-" jeśli nie jest na początku
+    } else if (type === "float") {
+      val = val.replace(/[^0-9.-]/g, ""); // Usuń wszystko poza cyframi, "-" i "."
+      val = val.replace(/(?!^)-/g, ""); // Usuń wszystkie "-" poza pierwszym
+      val = val.replace(/^(-?\d*)\.(.*)\./, "$1.$2"); // Usunięcie drugiej i kolejnych kropek
     }
 
     if (onlyPositive) val = val.replace(/-/g, "");
